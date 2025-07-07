@@ -24,6 +24,10 @@ pub mod stakrr {
         handle_unstake(ctx, amount)
     }
 
+    pub fn claim_reward(ctx: Context<ClaimReward>) -> Result<()> {
+        handle_claim_reward(ctx)
+    }
+
     pub fn fund_reward_pool(ctx: Context<FundRewardPool>, amount: u64) -> Result<()> {
         handle_fund_reward_pool(ctx, amount)
     }

@@ -39,9 +39,9 @@ impl Pool {
         // calculate rewards generated in this period
         let rewards_generated_this_period: u128 = (self.total_staked_amount as u128)
             .checked_mul(self.reward_rate_per_second as u128)
-            .ok_or(StakingError::MathOverflow)?
+            .unwrap()
             .checked_mul(elapsed_time as u128)
-            .ok_or(StakingError::MathOverflow)?;
+            .unwrap();
 
         self.accrued_reward_per_share = self.accrued_reward_per_share
             .checked_add(

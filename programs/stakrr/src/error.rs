@@ -26,4 +26,8 @@ pub enum StakingError {
     AlreadyPaused,
     #[msg("Unpause operation already performed")]
     AlreadyUnpaused,
+    #[msg("Invalid reward token mint provided")]
+    InvalidRewardTokenMint,
+    #[msg("No rewards available to claim")]
+    NoRewardsToClaim,
 }

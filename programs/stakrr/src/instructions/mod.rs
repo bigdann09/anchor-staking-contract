@@ -18,3 +18,6 @@ pub use pause::*;
 
 pub mod unpause;
 pub use unpause::*;
+
+pub mod claim;
+pub use claim::*;
