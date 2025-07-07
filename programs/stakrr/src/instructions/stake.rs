@@ -61,14 +61,14 @@ pub struct Stake<'info> {
 pub fn handle_stake(ctx: Context<Stake>, amount: u64) -> Result<()> {
     let pool = &mut ctx.accounts.pool;
     let user_stake_info = &mut ctx.accounts.user_stake_info;
-    let clock = Clock::get();
+    let current_timestamp = Clock::get()?.unix_timestamp;
 
     require!(!pool.is_paused, StakingError::Paused);
     require!(amount > 0, StakingError::ZeroStakeAmount);
 
-    // TODO: update global reward accumulator and user's pending rewards
-
-    // TODO: claim accured reward
+    // update global reward accumulator and user's pending rewards
+    pool.update_accrued_rewards_per_share(current_timestamp);
+    user_stake_info.claim_accrued_rewards(pool);
 
     // transfer staked tokens from user to vault
     msg!("transfer stake token amount {} to staking vault", amount);
@@ -104,7 +104,7 @@ pub fn handle_stake(ctx: Context<Stake>, amount: u64) -> Result<()> {
     // update or initialize user stake info
     user_stake_info.owner = *ctx.accounts.signer.key;
     user_stake_info.staked_amount = user_stake_info.staked_amount.checked_add(amount).ok_or(StakingError::MathOverflow)?;
-    user_stake_info.last_update_time = clock?.unix_timestamp;
+    user_stake_info.last_update_time = current_timestamp;
     user_stake_info.bump = ctx.bumps.user_stake_info;
 
     // update total staked amount
