@@ -6,6 +6,12 @@ pub enum StakingError {
     InvalidStakingMint,
     #[msg("Invalid staking vault account provided")]
     InvalidStakedVault,
+    #[msg("Invalid LST mint provided")]
+    InvalidLSTMint,
+    #[msg("Program is paused")]
+    Paused,
+    #[msg("Amount must be greater than zero(0)")]
+    ZeroStakeAmount,
     #[msg("")]
-    InvalidLSTMint
+    MathOverflow
 }
