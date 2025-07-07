@@ -14,7 +14,7 @@ pub struct Pool {
     pub lst_token_vault: Pubkey,
     pub total_staked_amount: u64,
     pub reward_rate_per_second: u64,
-    pub accured_reward_per_share: u128,
+    pub accrued_reward_per_share: u128,
     pub last_reward_update_timestamp: i64,
     pub reward_vault_bump: u8,
     pub staked_vault_bump: u8,
@@ -43,7 +43,7 @@ impl Pool {
             .checked_mul(elapsed_time as u128)
             .ok_or(StakingError::MathOverflow)?;
 
-        self.accured_reward_per_share = self.accured_reward_per_share
+        self.accrued_reward_per_share = self.accrued_reward_per_share
             .checked_add(
                 rewards_generated_this_period
                     .checked_div(self.total_staked_amount as u128)

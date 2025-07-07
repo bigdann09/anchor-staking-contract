@@ -12,6 +12,18 @@ pub enum StakingError {
     Paused,
     #[msg("Amount must be greater than zero(0)")]
     ZeroStakeAmount,
-    #[msg("")]
-    MathOverflow
+    #[msg("Math overflow")]
+    MathOverflow,
+    #[msg("Insufficient amount")]
+    InsufficientAmount,
+    #[msg("Insufficient LST amount")]
+    InsufficientLSTAmount,
+    #[msg("Unauthorized access")]
+    Unauthorized,
+    #[msg("Insufficient funds in the user's account")]
+    InsufficientFunds,
+    #[msg("Pause operation already performed")]
+    AlreadyPaused,
+    #[msg("Unpause operation already performed")]
+    AlreadyUnpaused,
 }

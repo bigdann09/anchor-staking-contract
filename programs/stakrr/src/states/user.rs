@@ -17,11 +17,11 @@ pub struct UserStakeInfo {
 impl UserStakeInfo {
     pub fn claim_accrued_rewards(&mut self, pool: &Pool) {
         if self.staked_amount == 0 {
-            self.reward_debt = pool.accured_reward_per_share;
+            self.reward_debt = pool.accrued_reward_per_share;
             return;
         }
 
-        let current_accrued = pool.accured_reward_per_share;
+        let current_accrued = pool.accrued_reward_per_share;
         let reward_per_share_earned = current_accrued.checked_sub(self.reward_debt).unwrap_or(0);
 
         let reward_earned_this_period = (self.staked_amount as u128)

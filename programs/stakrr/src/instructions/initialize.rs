@@ -74,9 +74,10 @@ pub fn handle_initialize_pool(ctx: Context<InitializePool>, rate_per_second: u64
         lst_token_vault: ctx.accounts.lst_token_vault.key(),
         total_staked_amount: 0,
         reward_rate_per_second: rate_per_second,
-        accured_reward_per_share: 0,
+        accrued_reward_per_share: 0,
         reward_vault_bump: ctx.bumps.reward_token_vault,
         staked_vault_bump: ctx.bumps.staked_token_vault,
+        last_reward_update_timestamp: Clock::get()?.unix_timestamp,
         lst_vault_bump: ctx.bumps.lst_token_vault,
         is_paused: false,
         bump: ctx.bumps.pool
