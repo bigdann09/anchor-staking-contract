@@ -30,4 +30,8 @@ pub enum StakingError {
     InvalidRewardTokenMint,
     #[msg("No rewards available to claim")]
     NoRewardsToClaim,
+    #[msg("Invalid rate amount")]
+    InvalidRateAmount,
+    #[msg("Invalid mint authority")]
+    InvalidMintAuthority,
 }

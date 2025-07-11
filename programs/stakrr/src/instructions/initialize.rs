@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
-use crate::states::Pool;
+use crate::{error::StakingError, states::Pool};
 
 #[derive(Accounts)]
 pub struct InitializePool<'info> {
@@ -63,7 +63,8 @@ pub struct InitializePool<'info> {
     pub system_program: Program<'info, System>
 }
 
-pub fn handle_initialize_pool(ctx: Context<InitializePool>, rate_per_second: u64) -> Result<()> {
+pub fn handle_initialize_pool(ctx: Context<InitializePool>, rate_per_second: f64) -> Result<()> {
+    require!(rate_per_second > 0.0, StakingError::InvalidRateAmount);
     ctx.accounts.pool.set_inner(Pool {
         authority: *ctx.accounts.signer.key,
         reward_token_mint: ctx.accounts.reward_token_mint.key(),

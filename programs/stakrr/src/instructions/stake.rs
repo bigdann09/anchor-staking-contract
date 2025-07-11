@@ -13,6 +13,7 @@ pub struct Stake<'info> {
     #[account(
         mut,
         seeds=[b"pool"],
+        has_one=lst_token_mint,
         bump=pool.bump
     )]
     pub pool: Account<'info, Pool>,
@@ -42,14 +43,15 @@ pub struct Stake<'info> {
     )]
     pub user_staked_token_account: InterfaceAccount<'info, TokenAccount>,
 
-    #[account(address = pool.lst_token_mint @ StakingError::InvalidLSTMint)]
+    #[account(mut, address = pool.lst_token_mint @ StakingError::InvalidLSTMint)]
     pub lst_token_mint: InterfaceAccount<'info, Mint>,
 
     #[account(
         init_if_needed,
         payer=signer,
         associated_token::mint=lst_token_mint,
-        associated_token::authority=signer
+        associated_token::authority=signer,
+        associated_token::token_program=token_program
     )]
     pub user_lst_token_account: InterfaceAccount<'info, TokenAccount>,
 
@@ -65,6 +67,8 @@ pub fn handle_stake(ctx: Context<Stake>, amount: u64) -> Result<()> {
 
     require!(!pool.is_paused, StakingError::Paused);
     require!(amount > 0, StakingError::ZeroStakeAmount);
+
+    require!(ctx.accounts.lst_token_mint.mint_authority == Some(pool.key()).into(), StakingError::InvalidMintAuthority);
 
     // update global reward accumulator and user's pending rewards
     pool.update_accrued_rewards_per_share(current_timestamp);

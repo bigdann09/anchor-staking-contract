@@ -15,12 +15,12 @@ pub struct UpdateRewardRate<'info> {
     pub pool: Account<'info, crate::states::Pool>,
 }
 
-pub fn handle_update_reward_rate(ctx: Context<UpdateRewardRate>, new_rate: u64) -> Result<()> {
+pub fn handle_update_reward_rate(ctx: Context<UpdateRewardRate>, new_rate: f64) -> Result<()> {
     let pool = &mut ctx.accounts.pool;
     let current_timestamp = Clock::get()?.unix_timestamp;
 
     require!(!pool.is_paused, StakingError::Paused);
-    require!(new_rate > 0, StakingError::ZeroStakeAmount);
+    require!(new_rate != 0.0, StakingError::InvalidRateAmount);
 
     // update global reward accumulator before changing rate
     pool.update_accrued_rewards_per_share(current_timestamp);

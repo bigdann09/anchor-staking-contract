@@ -1,7 +1,5 @@
 use anchor_lang::prelude::*;
 
-use crate::error::StakingError;
-
 #[account]
 #[derive(InitSpace)]
 pub struct Pool {
@@ -13,7 +11,7 @@ pub struct Pool {
     pub staked_token_vault: Pubkey,
     pub lst_token_vault: Pubkey,
     pub total_staked_amount: u64,
-    pub reward_rate_per_second: u64,
+    pub reward_rate_per_second: f64,
     pub accrued_reward_per_share: u128,
     pub last_reward_update_timestamp: i64,
     pub reward_vault_bump: u8,

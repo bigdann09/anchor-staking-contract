@@ -6,7 +6,6 @@ use crate::states::Pool;
 #[derive(InitSpace)]
 pub struct UserStakeInfo {
     pub owner: Pubkey,
-    pub pool: Pubkey,
     pub staked_amount: u64,
     pub reward_debt: u128,
     pub pending_rewards: u64,

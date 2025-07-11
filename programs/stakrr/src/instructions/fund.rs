@@ -25,7 +25,8 @@ pub struct FundRewardPool<'info> {
     #[account(
         mut,
         associated_token::mint=reward_token_mint,
-        associated_token::authority=signer
+        associated_token::authority=signer,
+        associated_token::token_program=token_program
     )]
     pub admin_reward_token_account: InterfaceAccount<'info, TokenAccount>,
 
